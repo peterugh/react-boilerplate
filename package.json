@@ -1,0 +1,25 @@
+{
+  "name": "react-boilerplate",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gsap": "^1.18.0",
+    "react": "^0.14.0-rc1",
+    "react-addons-css-transition-group": "^0.14.0-rc1",
+    "react-addons-transition-group": "^0.14.0-rc1",
+    "react-dom": "^0.14.0-rc1"
+  },
+  "devDependencies": {
+    "babelify": "^6.3.0",
+    "browser-sync": "^2.9.3",
+    "browserify": "^11.1.0",
+    "gulp": "^3.9.0",
+    "gulp-closurecompiler": "^0.1.0",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-sass": "^2.0.4",
+    "node-notifier": "^4.2.3",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "author": "Dane Hansen",
+  "license": "MIT"
+}
