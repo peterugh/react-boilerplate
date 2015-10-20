@@ -4,10 +4,10 @@
   "main": "gulpfile.js",
   "dependencies": {
     "gsap": "^1.18.0",
-    "react": "^0.14.0-rc1",
-    "react-addons-css-transition-group": "^0.14.0-rc1",
-    "react-addons-transition-group": "^0.14.0-rc1",
-    "react-dom": "^0.14.0-rc1"
+    "react": "^0.14.0",
+    "react-addons-css-transition-group": "^0.14.0",
+    "react-addons-transition-group": "^0.14.0",
+    "react-dom": "^0.14.0"
   },
   "devDependencies": {
     "babelify": "^6.3.0",
