@@ -1,4 +1,4 @@
-import Globals from '../Globals';
+import Globals from 'Globals';
 import React from 'react';
 
 class App extends React.Component

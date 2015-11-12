@@ -37,11 +37,10 @@ gulp.task('buildScripts', function () {
   browserify({
     entries: RAW_JS_PATH + 'index.js',
     extensions: ['.js'],
-    debug: true
+    debug: true,
+    paths: ['./raw/js/']
   })
-    .transform(babelify.configure({
-      optional: ["es7.classProperties"]
-    }))
+    .transform(babelify, {presets: ["es2015", "stage-0", "react"]})
     .bundle()
     .on('error', function (err) {
       notifier.notify({title:'ERROR', message:'JavaScript'});
