@@ -2,12 +2,12 @@
 var gulp = require('gulp');
 
 //handles dependencies
-var browserify = require('browserify');
+var webpack = require('webpack');
 
 //transpiles es6/jsx to es5
-var babelify = require('babelify');
+// var babel = require('babel-loader');
 
-//converts reatable stream from browserify into the gulp compatible stream
+//converts reatable stream from webpack into the gulp compatible stream
 var source = require('vinyl-source-stream');
 
 //css preprocessor
@@ -20,7 +20,7 @@ var notifier = require('node-notifier');
 var browserSync = require('browser-sync');
 
 //minifies js
-var gulpCC = require("gulp-closurecompiler");
+var gulpCC = require('gulp-closurecompiler');
 
 //minifies css
 var minifyCss = require('gulp-minify-css');
@@ -33,21 +33,42 @@ var DEST_PATH = './www/';
 var DEST_JS_PATH = DEST_PATH + 'js/';
 var DEST_CSS_PATH = DEST_PATH + 'css/';
  
-gulp.task('buildScripts', function () {
-  browserify({
-    entries: RAW_JS_PATH + 'index.js',
-    extensions: ['.js'],
-    debug: true,
-    paths: ['./raw/js/']
-  })
-    .transform(babelify, {presets: ["es2015", "stage-0", "react"]})
-    .bundle()
-    .on('error', function (err) {
-      notifier.notify({title:'ERROR', message:'JavaScript'});
-      console.log('ERROR:', err.message);
-    })
-    .pipe(source(SCRIPTS_FILENAME))
-    .pipe(gulp.dest(DEST_JS_PATH));
+gulp.task('buildScripts', function (callback) {
+  webpack({
+    devtool: 'source-map',
+    entry: [RAW_JS_PATH + 'index.js'],
+    output: {
+      path: DEST_JS_PATH,
+      filename: SCRIPTS_FILENAME
+    },
+    module: {
+        loaders: [
+          {
+            loader: 'babel',
+            query: {
+              presets: [
+                'es2015',
+                'react',
+                'stage-0'
+              ]
+            }
+          }
+        ]
+    },
+    resolve: {
+      alias: {
+        'TweenLite': 'gsap/src/uncompressed/TweenLite'
+      },
+      modulesDirectories: ['./node_modules', RAW_JS_PATH]
+    }
+  }, function(err, stats) {
+      if(err) {
+        notifier.notify({title:'ERROR', message:'JavaScript'});
+        console.log('ERROR:', err.message);
+      }
+      if(callback)
+        callback();
+  });
 });
 
 gulp.task('buildStyles', function() {
@@ -71,15 +92,14 @@ gulp.task('minify', function(){
 });
 
 gulp.task('default', function () {
-	browserSync.init([DEST_PATH + '**/*'], {
-  	port: 8001,
+  browserSync.init([DEST_PATH + '**/*'], {
+    port: 8001,
     server: {
       baseDir: DEST_PATH
     }
   });
-	gulp.tasks.buildStyles.fn();
-	gulp.tasks.buildScripts.fn();
-	gulp.watch([RAW_SCSS_PATH + '**/*.scss'],['buildStyles']);
+  gulp.tasks.buildStyles.fn();
+  gulp.tasks.buildScripts.fn();
+  gulp.watch([RAW_SCSS_PATH + '**/*.scss'],['buildStyles']);
   gulp.watch([RAW_JS_PATH + '**/*.js'],['buildScripts']);
 });
- 
