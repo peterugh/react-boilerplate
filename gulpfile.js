@@ -19,6 +19,9 @@ var notifier = require('node-notifier');
 //boots up localhost and refreshes when changes are made
 var browserSync = require('browser-sync');
 
+// necessary to have browsersync handle routing urls
+var historyApiFallback = require('connect-history-api-fallback');
+
 //minifies js
 var gulpCC = require("gulp-closurecompiler");
 
@@ -74,7 +77,8 @@ gulp.task('default', function () {
 	browserSync.init([DEST_PATH + '**/*'], {
   	port: 8001,
     server: {
-      baseDir: DEST_PATH
+      baseDir: DEST_PATH,
+      middleware: [ historyApiFallback() ]
     }
   });
 	gulp.tasks.buildStyles.fn();
