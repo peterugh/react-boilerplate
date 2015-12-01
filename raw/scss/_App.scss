@@ -1,4 +1,25 @@
 .App
 {
   font-family: Helvetica, Arial, sans-serif;
+  nav 
+  {
+    padding: 10px 0;
+    li 
+    {
+      display: inline-block;
+      a 
+      {
+        color: #5555ff; 
+      }
+      &:after 
+      {
+        content: "|";
+        padding: 0 5px;
+      }
+      &:last-child:after 
+      {
+        display: none;
+      }
+    }
+  }
 }
